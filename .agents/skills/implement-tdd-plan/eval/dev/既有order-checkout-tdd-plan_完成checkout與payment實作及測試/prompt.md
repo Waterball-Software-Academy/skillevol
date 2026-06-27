@@ -1,0 +1,1 @@
+/implement-tdd-plan `docs/tdd/order-checkout.tdd-plan.md` 已確認，請直接依這份 TDD plan 完成 checkout 與 payment boundary 的實作。若需要脈絡，可參考 `docs/architecture/order-checkout.class.mmd` 與 `docs/order-checkout-requirements.md`。

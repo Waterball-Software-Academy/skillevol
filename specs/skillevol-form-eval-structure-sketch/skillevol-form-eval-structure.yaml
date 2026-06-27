@@ -1,0 +1,163 @@
+plan: "skillevol-form-eval canonical structure"
+sketches:
+  - id: c2-eval-topology
+    level: C2
+    focus: "skillevol-form-eval 的 canonical eval 如何分成 shared、dev/holdout 與 scenario 形狀"
+    lanes:
+      - {id: L1, label: "Eval package"}
+      - {id: L2, label: "Scenario / oracle consumers"}
+    nodes:
+      - id: Eval
+        label: "eval/"
+        kind: container
+        lane: L1
+        icon: "📦"
+        panels:
+          - {label: "shared/expect.md", icon: "⇅"}
+          - {label: "dev/<scenario>+", icon: "🧪"}
+          - {label: "holdout/<scenario>*", icon: "🙈"}
+        impl: {unit: "rules/structure.md#eval", kind: module}
+      - id: NB
+        label: "非分支 scenario"
+        kind: container
+        lane: L2
+        icon: "📁"
+        contains: ["before/", "prompt.md", "user.md?", "expect.md", "after/?"]
+        impl: {unit: "rules/structure.md#non-branch-scenario", kind: module}
+        zoom: c1-scenario-shapes
+      - id: BR
+        label: "分支 scenario"
+        kind: container
+        lane: L2
+        icon: "🌿"
+        contains: ["before/", "prompt.md", "variants/<unit-name>+"]
+        impl: {unit: "rules/structure.md#branch-scenario", kind: module}
+        zoom: c1-scenario-shapes
+      - id: Judge
+        label: "runner / judge"
+        kind: external
+        lane: L2
+        stereotype: "consumer"
+        icon: "⚖"
+        impl: {unit: "rules/structure.md#artifact-output-contract", kind: module}
+    edges:
+      - {id: e1, from: Eval, to: NB, verb: "materialize", payload: "dev | holdout unit", kind: dataflow}
+      - {id: e2, from: Eval, to: BR, verb: "materialize", payload: "dev | holdout scenario", kind: dataflow}
+      - {id: e3, from: Eval, to: Judge, verb: "提供", payload: "shared/expect 橫切判準", kind: dataflow}
+      - {id: e4, from: NB, to: Judge, verb: "交評", payload: "expect + after diff", kind: dataflow}
+      - {id: e5, from: BR, to: Judge, verb: "交評", payload: "variant expect + after diff", kind: dataflow}
+    notes:
+      - {anchor: Eval, type: behavioral-contract, text: "shared/expect.md = 橫切判準；dev 與 holdout 結構相同，差別只在可見性"}
+      - {anchor: NB, type: impl-directive, text: "非分支 unit 自己就是一個 unit；before/prompt/expect 必備，user/after 依互動與 file outcome 決定"}
+      - {anchor: BR, type: behavioral-contract, text: "分支 scenario 共用 before/prompt；每個 variants/<unit-name>/ 才是一個 unit"}
+      - {anchor: "NB->Judge", type: design-constraint, salience: high, text: "若驗 file artifact，after/ 必須是真實快照；file outcome 不得寫回 expect ★"}
+      - {anchor: Judge, type: scope-bound, text: "hidden oracle material 只能留在 expect/shared expect/judge 端，不得冒充 target-visible input"}
+
+  - id: c1-scenario-shapes
+    level: C1
+    focus: "非分支與分支 scenario 如何安放 before、prompt、user、expect、after"
+    lanes:
+      - {id: L1, label: "單一 unit"}
+      - {id: L2, label: "分支 scenario"}
+    nodes:
+      - id: Unit
+        label: "非分支 unit dir"
+        kind: container
+        lane: L1
+        icon: "📁"
+        contains: ["before/", "prompt.md", "user.md?", "expect.md", "after/?"]
+        impl: {unit: "rules/structure.md#scenario-non-branch", kind: file}
+      - id: Scenario
+        label: "分支 scenario dir"
+        kind: container
+        lane: L2
+        icon: "🌿"
+        contains: ["before/", "prompt.md", "variants/<unit-name>+"]
+        impl: {unit: "rules/structure.md#scenario-branch", kind: file}
+      - id: Variant
+        label: "variant unit"
+        kind: container
+        lane: L2
+        icon: "🧷"
+        multiplicity: N
+        contains: ["user.md", "expect.md", "after/"]
+        impl: {unit: "rules/structure.md#variant-unit", kind: file}
+      - id: Before
+        label: "before/"
+        kind: datastore
+        lane: L1
+        icon: "💾"
+        impl: {unit: "rules/structure.md#before", kind: file}
+      - id: After
+        label: "after/"
+        kind: datastore
+        lane: L1
+        icon: "🧾"
+        impl: {unit: "rules/structure.md#after", kind: file}
+      - id: Expect
+        label: "expect.md"
+        kind: component
+        lane: L1
+        icon: "📜"
+        impl: {unit: "rules/structure.md#expect", kind: file}
+        zoom: c1-expect-oracle
+    edges:
+      - {id: e6, from: Scenario, to: Variant, verb: "展開", payload: "每個 answer-key variant = 一個 unit", kind: dataflow}
+      - {id: e7, from: Before, to: Unit, verb: "drop 成", payload: "CWD + diff base", kind: dataflow}
+      - {id: e8, from: Unit, to: Expect, verb: "記錄", payload: "行為 / 時序 oracle", kind: dataflow}
+      - {id: e9, from: Unit, to: After, verb: "imply", payload: "file outcome", kind: dataflow}
+      - {id: e10, from: Variant, to: After, verb: "成對釘住", payload: "answer -> outcome", kind: dataflow}
+    notes:
+      - {anchor: Unit, type: behavioral-contract, text: "E1/E2：每 unit 必可 drop 即跑；before/ 同時是 droppable CWD 與 diff base"}
+      - {anchor: Scenario, type: design-constraint, text: "分支時 before/prompt 只寫一次；不要把共用 input 複製到每個 variant"}
+      - {anchor: Variant, type: behavioral-contract, text: "每個 variant = {user.md, expect.md, after/} 一個 input->output 函數點"}
+      - {anchor: After, type: design-constraint, salience: high, text: "E12/E13：有 file artifact 就必填 after/；沒有 after 只允許 behavior/message only ★"}
+      - {anchor: Expect, type: impl-directive, text: "expect 只寫過程與語意 rubric；不要塞 file diff 或 Outcome 段落"}
+
+  - id: c1-expect-oracle
+    level: C1
+    focus: "expect.md 如何只承載行為 oracle，而把 file oracle 與 hidden metadata 留在正確邊界"
+    lanes:
+      - {id: L1, label: "expect.md sections"}
+      - {id: L2, label: "oracle consumers"}
+    nodes:
+      - id: ExpectRoot
+        label: "expect.md"
+        kind: container
+        lane: L1
+        icon: "📜"
+        contains: ["H1+繼承", "Hidden oracle metadata?", "Provenance", "Run(Turn x N)", "Cross-turn?"]
+        impl: {unit: "rules/structure.md#expect-md", kind: file}
+      - id: Turn
+        label: "### Turn k"
+        kind: component
+        lane: L1
+        icon: "🔁"
+        panels:
+          - {label: "Tool calls", icon: "🛠"}
+          - {label: "Assistant message", icon: "💬"}
+          - {label: "breakpoint?", icon: "⛔"}
+        impl: {unit: "rules/structure.md#turn", kind: file}
+      - id: FileOracle
+        label: "after/ diff"
+        kind: datastore
+        lane: L2
+        icon: "🧾"
+        impl: {unit: "rules/structure.md#after-implies-outcome", kind: file}
+      - id: Consumer
+        label: "runner / judge / outer evaluator"
+        kind: external
+        lane: L2
+        stereotype: "consumer"
+        icon: "⚖"
+        impl: {unit: "rules/structure.md#hidden-oracle-metadata", kind: file}
+    edges:
+      - {id: e11, from: ExpectRoot, to: Turn, verb: "展開", payload: "1..N one-turn sequence", kind: dataflow}
+      - {id: e12, from: ExpectRoot, to: Consumer, verb: "提供", payload: "behavior oracle + hidden metadata", kind: dataflow}
+      - {id: e13, from: FileOracle, to: Consumer, verb: "提供", payload: "file outcome for judge", kind: dataflow}
+    notes:
+      - {anchor: ExpectRoot, type: behavioral-contract, text: "標題/H1 + 繼承 + Provenance + Run 必備；Cross-turn 只在多輪需要"}
+      - {anchor: Turn, type: design-constraint, text: "E4：Turn 只含 Tool calls / Assistant message / breakpoint，不含 file diff"}
+      - {anchor: FileOracle, type: design-constraint, salience: high, text: "E3：file 終態由 after/ imply；expect 不得再寫 Outcome 或 file diff ★"}
+      - {anchor: Consumer, type: scope-bound, text: "E14：Hidden oracle metadata 只能給 runner/judge/outer evaluator 消費"}
+      - {anchor: "ExpectRoot->Consumer", type: impl-directive, text: "metadata 只在需要 preflight / design-variance 契約判讀時才宣告"}

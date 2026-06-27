@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960"
+     font-family="'JetBrains Mono','SF Mono','Menlo','Consolas','PingFang TC','Microsoft JhengHei',monospace">
+  <defs>
+    <marker id="ink" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto">
+      <path d="M0,0 L11,5.5 L0,11 L3,5.5 Z" fill="#2b2b2b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1440" height="960" fill="#fbfaf7"/>
+
+  <text x="36" y="42" font-size="28" font-weight="700" fill="#2b2b2b">c1-expect-oracle</text>
+  <text x="36" y="70" font-size="15" fill="#7a756c">focus: expect.md keeps behavior oracle while file oracle and hidden metadata stay on the right boundary</text>
+
+  <rect x="28" y="100" width="760" height="620" rx="14" fill="none" stroke="#bdb8ad" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <text x="48" y="126" font-size="16" font-weight="700" fill="#8a857a">expect.md sections</text>
+  <rect x="828" y="100" width="584" height="620" rx="14" fill="none" stroke="#bdb8ad" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <text x="848" y="126" font-size="16" font-weight="700" fill="#8a857a">oracle consumers</text>
+
+  <rect x="84" y="170" width="430" height="200" rx="14" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="108" y="202" font-size="22" font-weight="700" fill="#2b2b2b">expect.md</text>
+  <text x="108" y="238" font-size="13" fill="#2b2b2b">H1 plus inherit</text>
+  <text x="108" y="260" font-size="13" fill="#2b2b2b">Hidden oracle metadata?</text>
+  <text x="108" y="282" font-size="13" fill="#2b2b2b">Provenance</text>
+  <text x="108" y="304" font-size="13" fill="#2b2b2b">Run(Turn x N)</text>
+  <text x="108" y="326" font-size="13" fill="#2b2b2b">Cross-turn?</text>
+  <rect x="108" y="340" width="270" height="22" rx="6" fill="#f0ede6"/>
+  <text x="118" y="355" font-size="12" fill="#8a857a">unit: rules/structure.md#expect-md</text>
+
+  <rect x="560" y="186" width="180" height="154" rx="14" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="580" y="216" font-size="20" font-weight="700" fill="#2b2b2b">Turn k</text>
+  <rect x="580" y="236" width="138" height="24" rx="6" fill="#f6f3ec" stroke="#d8d2c7"/>
+  <text x="592" y="252" font-size="12" fill="#2b2b2b">Tool calls</text>
+  <rect x="580" y="268" width="138" height="24" rx="6" fill="#f6f3ec" stroke="#d8d2c7"/>
+  <text x="592" y="284" font-size="12" fill="#2b2b2b">Assistant message</text>
+  <rect x="580" y="300" width="138" height="24" rx="6" fill="#f6f3ec" stroke="#d8d2c7"/>
+  <text x="592" y="316" font-size="12" fill="#2b2b2b">breakpoint?</text>
+  <rect x="580" y="332" width="148" height="22" rx="6" fill="#f0ede6"/>
+  <text x="590" y="347" font-size="12" fill="#8a857a">unit: rules/structure.md#turn</text>
+
+  <rect x="930" y="190" width="220" height="120" rx="14" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="952" y="220" font-size="20" font-weight="700" fill="#2b2b2b">after/ diff</text>
+  <text x="952" y="248" font-size="12" fill="#2b2b2b">file outcome for judge</text>
+  <text x="952" y="266" font-size="12" fill="#2b2b2b">real fs snapshot</text>
+  <rect x="952" y="284" width="170" height="22" rx="6" fill="#f0ede6"/>
+  <text x="962" y="299" font-size="12" fill="#8a857a">unit: rules/structure.md#after-implies-outcome</text>
+
+  <text x="1210" y="180" font-size="16" fill="#8a857a">consumer</text>
+  <rect x="1184" y="190" width="190" height="170" rx="14" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="1206" y="220" font-size="20" font-weight="700" fill="#2b2b2b">runner / judge</text>
+  <text x="1206" y="248" font-size="12" fill="#2b2b2b">reads behavior oracle</text>
+  <text x="1206" y="266" font-size="12" fill="#2b2b2b">reads hidden metadata</text>
+  <text x="1206" y="284" font-size="12" fill="#2b2b2b">consumes after diff</text>
+  <rect x="1206" y="314" width="150" height="22" rx="6" fill="#f0ede6"/>
+  <text x="1216" y="329" font-size="12" fill="#8a857a">unit: rules/structure.md#hidden-oracle-metadata</text>
+
+  <path d="M514,270 L560,270" stroke="#2b2b2b" stroke-width="1.8" fill="none" marker-end="url(#ink)"/>
+  <text x="518" y="256" font-size="12" fill="#2b2b2b">one-turn sequence</text>
+  <path d="M514,230 L1184,230" stroke="#2b2b2b" stroke-width="1.8" fill="none" marker-end="url(#ink)"/>
+  <text x="748" y="216" font-size="12" fill="#2b2b2b">behavior oracle and metadata</text>
+  <path d="M1150,250 L1184,250" stroke="#2b2b2b" stroke-width="1.8" fill="none" marker-end="url(#ink)"/>
+
+  <rect x="70" y="410" width="500" height="60" rx="10" fill="#eaf1f8" stroke="#2471a3"/>
+  <text x="86" y="432" font-size="13" fill="#1b4f72">H1, inherit, Provenance, and Run are required.</text>
+  <text x="86" y="450" font-size="13" fill="#1b4f72">Cross-turn appears only for multi-turn behavior.</text>
+  <path d="M300,410 L300,370" stroke="#2471a3" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <rect x="592" y="404" width="390" height="60" rx="10" fill="#f9e7e5" stroke="#c0392b"/>
+  <text x="608" y="426" font-size="13" fill="#922b21">Turn blocks contain tool calls, assistant message,</text>
+  <text x="608" y="444" font-size="13" fill="#922b21">and optional breakpoint, never file diff.</text>
+  <path d="M730,404 L650,340" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <rect x="894" y="382" width="430" height="60" rx="10" fill="#f9e7e5" stroke="#c0392b"/>
+  <text x="910" y="404" font-size="13" fill="#922b21">HIGH: file outcome is implied only by after/.</text>
+  <text x="910" y="422" font-size="13" fill="#922b21">expect must not add outcome prose or file diff.</text>
+  <path d="M1040,382 L1040,310" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <rect x="976" y="470" width="356" height="60" rx="10" fill="#f1e8f6" stroke="#7d3c98"/>
+  <text x="992" y="492" font-size="13" fill="#5b2c6f">Hidden oracle metadata is for runner, judge,</text>
+  <text x="992" y="510" font-size="13" fill="#5b2c6f">or outer evaluator only, never visible input.</text>
+  <path d="M1152,470 L1278,360" stroke="#7d3c98" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <rect x="626" y="492" width="320" height="60" rx="10" fill="#fbeee2" stroke="#d35400"/>
+  <text x="642" y="514" font-size="13" fill="#a04000">Declare metadata only when preflight or design</text>
+  <text x="642" y="532" font-size="13" fill="#a04000">variance checks need a hidden contract.</text>
+  <path d="M780,492 L914,240" stroke="#d35400" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <rect x="28" y="790" width="1384" height="102" rx="12" fill="#fffdf8" stroke="#d8d2c7"/>
+  <text x="48" y="820" font-size="14" font-weight="700" fill="#2b2b2b">Legend</text>
+  <rect x="130" y="802" width="18" height="18" rx="4" fill="#f9e7e5" stroke="#c0392b"/><text x="156" y="816" font-size="12" fill="#922b21">design-constraint</text>
+  <rect x="314" y="802" width="18" height="18" rx="4" fill="#fbeee2" stroke="#d35400"/><text x="340" y="816" font-size="12" fill="#a04000">impl-directive</text>
+  <rect x="490" y="802" width="18" height="18" rx="4" fill="#eaf1f8" stroke="#2471a3"/><text x="516" y="816" font-size="12" fill="#1b4f72">behavioral-contract</text>
+  <rect x="710" y="802" width="18" height="18" rx="4" fill="#f1e8f6" stroke="#7d3c98"/><text x="736" y="816" font-size="12" fill="#5b2c6f">scope-bound</text>
+  <text x="48" y="852" font-size="12" fill="#7a756c">Left lane is expect structure. Right lane is oracle-only consumption.</text>
+  <text x="48" y="878" font-size="12" fill="#7a756c">SSOT = skillevol-form-eval-structure.yaml; this SVG is a projection.</text>
+</svg>

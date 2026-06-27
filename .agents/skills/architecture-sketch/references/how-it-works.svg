@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1040" viewBox="0 0 1320 1040" font-family="'JetBrains Mono','SF Mono','Menlo','Consolas','PingFang TC','Microsoft JhengHei',monospace">
+  <defs>
+    <marker id="ink" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 L3,5.5 Z" fill="#2b2b2b"/></marker>
+    <marker id="grey" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 L3,5.5 Z" fill="#7a756c"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1320" height="1040" fill="#fbfaf7"/>
+
+  <!-- title -->
+  <text x="36" y="48" font-size="30" font-weight="700" fill="#2b2b2b">architecture-sketch — 運作大圖</text>
+  <text x="36" y="74" font-size="14" fill="#7a756c">focus：skill 把 impl 計畫的架構需求，經結構先行的 Sketch (SSOT) 與 G1–G7 驗證，投影成多張手繪圖　·　本圖由 skill 畫自己</text>
+  <text x="1284" y="44" font-size="11" fill="#8a857a" text-anchor="end">SSOT = references/how-it-works.yaml · 本 SVG 為投影</text>
+
+  <!-- lanes -->
+  <rect x="250" y="96" width="1040" height="448" rx="14" fill="none" stroke="#bdb8ad" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <text x="266" y="120" font-size="16" font-weight="700" fill="#8a857a">結構層（SSOT · 可審查 / 版控）</text>
+  <rect x="250" y="566" width="1040" height="320" rx="14" fill="none" stroke="#bdb8ad" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <text x="266" y="590" font-size="16" font-weight="700" fill="#8a857a">投影層（手繪圖）</text>
+
+  <!-- ===== NEED (actor) ===== -->
+  <rect x="36" y="300" width="180" height="120" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="48" y="326" font-size="12" fill="#9b8bd0" font-style="italic">«actor»</text>
+  <text x="48" y="354" font-size="18" font-weight="700" fill="#2b2b2b">🧩 Impl-plan</text>
+  <text x="48" y="378" font-size="14" fill="#55504a">的架構需求</text>
+  <!-- NEED note: scope-bound -->
+  <rect x="36" y="452" width="205" height="58" rx="8" fill="#f1e8f6" stroke="#7d3c98"/>
+  <text x="48" y="474" font-size="12" fill="#5b2c6f">只接手 impl 計畫的</text>
+  <text x="48" y="492" font-size="12" fill="#5b2c6f">『架構部分』</text>
+  <path d="M130,452 L130,420" stroke="#7d3c98" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- ===== DEFINE ===== -->
+  <rect x="290" y="320" width="190" height="110" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="302" y="352" font-size="18" font-weight="700" fill="#2b2b2b">✍ DEFINE</text>
+  <rect x="302" y="398" width="166" height="24" rx="6" fill="#f0ede6"/>
+  <text x="310" y="415" font-size="11.5" fill="#8a857a">▸ references/grammar.md</text>
+  <!-- DEFINE note: design-constraint ★ -->
+  <rect x="280" y="160" width="270" height="84" rx="8" fill="#f9e7e5" stroke="#c0392b"/>
+  <text x="292" y="182" font-size="12" fill="#922b21">★ 顆粒度法則：一盒 =</text>
+  <text x="292" y="200" font-size="12" fill="#922b21">1–2 約束 / 提示；拆到剛</text>
+  <text x="292" y="218" font-size="12" fill="#922b21">好能掛上不同約束為止</text>
+  <path d="M385,244 L385,320" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- ===== SKETCH (datastore, dual-layer panels) ===== -->
+  <rect x="560" y="268" width="290" height="192" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="572" y="296" font-size="18" font-weight="700" fill="#2b2b2b">📐 Sketch (YAML)</text>
+  <rect x="572" y="312" width="266" height="42" rx="8" fill="#f7f5f0" stroke="#cfc9bd"/>
+  <text x="584" y="338" font-size="13" font-weight="700" fill="#2b2b2b">物理層 — nodes / edges</text>
+  <rect x="572" y="362" width="266" height="42" rx="8" fill="#f7f5f0" stroke="#cfc9bd"/>
+  <text x="584" y="388" font-size="13" font-weight="700" fill="#2b2b2b">引導層 — notes（約束/提示）</text>
+  <rect x="572" y="416" width="160" height="24" rx="6" fill="#f0ede6"/>
+  <text x="580" y="433" font-size="11.5" fill="#8a857a">▸ &lt;plan&gt;.yaml</text>
+  <!-- SKETCH note: behavioral-contract ★ -->
+  <rect x="580" y="170" width="300" height="66" rx="8" fill="#eaf1f8" stroke="#2471a3"/>
+  <text x="592" y="192" font-size="12" fill="#1b4f72">★ 結構 = SSOT，SVG = 投影；</text>
+  <text x="592" y="210" font-size="12" fill="#1b4f72">改圖 = 改 YAML 重渲染</text>
+  <path d="M705,236 L705,268" stroke="#2471a3" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- ===== VALIDATE ===== -->
+  <rect x="1015" y="320" width="250" height="110" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="1027" y="352" font-size="18" font-weight="700" fill="#2b2b2b">✓ VALIDATE</text>
+  <rect x="1027" y="398" width="226" height="24" rx="6" fill="#f0ede6"/>
+  <text x="1035" y="415" font-size="11" fill="#8a857a">▸ scripts/validate_sketch.py</text>
+  <!-- VALIDATE note: impl-directive 💡 -->
+  <rect x="1000" y="160" width="276" height="84" rx="8" fill="#fbeee2" stroke="#d35400"/>
+  <text x="1012" y="182" font-size="12" fill="#a04000">💡 機器檢：</text>
+  <text x="1012" y="200" font-size="12" fill="#a04000">G2 / G3 / G5 / G7；</text>
+  <text x="1012" y="218" font-size="12" fill="#a04000">G1 / G4 / G6 交 LLM 判斷</text>
+  <path d="M1140,244 L1140,320" stroke="#d35400" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- ===== L1 edges ===== -->
+  <!-- e1 NEED -> DEFINE -->
+  <path d="M216,375 L290,375" fill="none" stroke="#2b2b2b" stroke-width="2" marker-end="url(#ink)"/>
+  <text x="253" y="368" font-size="10.5" fill="#2b2b2b" text-anchor="middle">架構部分</text>
+  <!-- e2 DEFINE -> SKETCH -->
+  <path d="M480,375 L560,375" fill="none" stroke="#2b2b2b" stroke-width="2" marker-end="url(#ink)"/>
+  <text x="520" y="368" font-size="10.5" fill="#2b2b2b" text-anchor="middle">產出 YAML</text>
+  <!-- e3 SKETCH -> VALIDATE -->
+  <path d="M850,348 L1015,348" fill="none" stroke="#2b2b2b" stroke-width="2" marker-end="url(#ink)"/>
+  <text x="932" y="341" font-size="11" fill="#2b2b2b" text-anchor="middle">過閘 G1–G7</text>
+  <!-- e4 VALIDATE -> SKETCH (feedback) -->
+  <path d="M1015,400 L850,400" fill="none" stroke="#2b2b2b" stroke-width="2" marker-end="url(#ink)"/>
+  <text x="932" y="392" font-size="11" fill="#2b2b2b" text-anchor="middle">FAIL → 修正重跑</text>
+  <!-- e4 note: behavioral-contract -->
+  <rect x="858" y="440" width="152" height="46" rx="8" fill="#eaf1f8" stroke="#2471a3"/>
+  <text x="866" y="460" font-size="10.5" fill="#1b4f72">任一 FAIL 不得 render；</text>
+  <text x="866" y="476" font-size="10.5" fill="#1b4f72">修 YAML 重跑</text>
+  <path d="M932,440 L932,408" stroke="#2471a3" stroke-width="1.1" stroke-dasharray="3 3"/>
+
+  <!-- e5 SKETCH -> RENDER (down into L2) -->
+  <path d="M705,460 L705,612" fill="none" stroke="#2b2b2b" stroke-width="2" marker-end="url(#ink)"/>
+  <text x="715" y="540" font-size="11" fill="#2b2b2b">content→layout→skin</text>
+
+  <!-- ===== RENDER ===== -->
+  <rect x="560" y="612" width="290" height="120" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="572" y="642" font-size="17" font-weight="700" fill="#2b2b2b">🎨 RENDER</text>
+  <text x="572" y="666" font-size="12" fill="#55504a">content → layout → skin</text>
+  <rect x="572" y="692" width="244" height="24" rx="6" fill="#f0ede6"/>
+  <text x="580" y="709" font-size="11" fill="#8a857a">▸ skin.md + skin-defs.svg</text>
+
+  <!-- ===== SVGS (view, multiplicity N stack) ===== -->
+  <rect x="1027" y="616" width="238" height="120" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="1.4"/>
+  <rect x="1021" y="611" width="238" height="120" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="1.4"/>
+  <rect x="1015" y="606" width="238" height="120" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="1027" y="636" font-size="16" font-weight="700" fill="#2b2b2b">🖼 1..* SVG 圖</text>
+  <text x="1027" y="660" font-size="11.5" fill="#55504a">每張 = 一個 focus</text>
+  <rect x="1027" y="692" width="200" height="24" rx="6" fill="#f0ede6"/>
+  <text x="1035" y="709" font-size="11" fill="#8a857a">▸ &lt;sketch-id&gt;.svg</text>
+  <!-- e6 RENDER -> SVGS (render, thin grey) -->
+  <path d="M850,672 L1015,668" fill="none" stroke="#7a756c" stroke-width="1.6" marker-end="url(#grey)"/>
+  <text x="932" y="662" font-size="11" fill="#7a756c" text-anchor="middle">投影</text>
+
+  <!-- RENDER note: reference-exemplar -->
+  <rect x="560" y="760" width="320" height="70" rx="8" fill="#e6f3ee" stroke="#117a65"/>
+  <text x="572" y="782" font-size="12" fill="#0b5345">手繪 SKIN：暖紙底 + 等寬字 +</text>
+  <text x="572" y="800" font-size="12" fill="#0b5345">顏色 = note type（見 exemplar）</text>
+  <path d="M705,760 L705,732" stroke="#117a65" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <!-- SVGS note: design-constraint -->
+  <rect x="945" y="760" width="320" height="70" rx="8" fill="#f9e7e5" stroke="#c0392b"/>
+  <text x="957" y="782" font-size="12" fill="#922b21">多圖：一圖一 focus；過載的</text>
+  <text x="957" y="800" font-size="12" fill="#922b21">盒 zoom 下鑽成另一張圖</text>
+  <path d="M1090,760 L1090,736" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- ===== legend ===== -->
+  <rect x="36" y="900" width="1248" height="110" rx="12" fill="#ffffff" stroke="#cfc9bd"/>
+  <text x="56" y="926" font-size="15" font-weight="700" fill="#2b2b2b">Legend</text>
+  <text x="56" y="950" font-size="12.5" fill="#55504a">物理層：圓角盒 = stage / artifact；«actor» = 觸發者；🖼 疊層 = multiplicity N（多張圖）；虛線框 = lane；▸ = impl 綁定（檔案）。實線箭頭 + verb = 呼叫 / 資料流；細灰線 = render（投影）。</text>
+  <text x="56" y="978" font-size="13" font-weight="700" fill="#2b2b2b">引導層（錨定 note，顏色 = type）：</text>
+  <g font-size="12.5">
+    <rect x="320" y="966" width="16" height="16" rx="3" fill="#f9e7e5" stroke="#c0392b"/><text x="344" y="979" fill="#922b21">design-constraint</text>
+    <rect x="494" y="966" width="16" height="16" rx="3" fill="#fbeee2" stroke="#d35400"/><text x="518" y="979" fill="#a04000">impl-directive 💡</text>
+    <rect x="676" y="966" width="16" height="16" rx="3" fill="#eaf1f8" stroke="#2471a3"/><text x="700" y="979" fill="#1b4f72">behavioral-contract</text>
+    <rect x="876" y="966" width="16" height="16" rx="3" fill="#f1e8f6" stroke="#7d3c98"/><text x="900" y="979" fill="#5b2c6f">scope-bound</text>
+    <rect x="1024" y="966" width="16" height="16" rx="3" fill="#e6f3ee" stroke="#117a65"/><text x="1048" y="979" fill="#0b5345">reference-exemplar</text>
+  </g>
+  <text x="56" y="1000" font-size="12" fill="#8a857a">★ = 高 salience　·　本圖即一個 self-example：DEFINE how-it-works.yaml → VALIDATE（all pass）→ RENDER 本 SVG。改圖請改 YAML 後重渲染。</text>
+</svg>

@@ -1,0 +1,51 @@
+# Guideline
+
+渲染此範本產出 `docs/architecture/<feature-scope>.class.mmd`。
+
+- 保留 `# Template` 區塊的固定結構：`classDiagram`、`direction LR`、namespace 分組方式、關係箭頭語法（`..>`、`*--`、`<|..`）。
+- `${NAMESPACE_*}`：填入簡短 package id（如 `cart`、`order`、`payment`），不要用 Java FQCN。
+- `${CLASS_*}` / `${METHOD_*}` / `${REL_*}`：依 step 2 判定的改動範圍填入；既有 class 若未改方法可只留 class 名，不加欄位。
+- 協調者方法 MUST 回傳領域實體（如 `Order`），禁止自創 wrapper type（如 `CheckoutResult`）。
+- 外部邊界 MUST 含 interface、至少一個具名 impl、以及 request/result type（若流程有付款/API 語意）。
+- 不列 private 欄位、getter/setter inventory；class 方塊只留架構有意義的 public 方法簽名。
+
+# Template
+
+classDiagram
+    direction LR
+
+    namespace ${NAMESPACE_A} {
+        class ${CLASS_A1} {
+            ${METHOD_A1}
+        }
+        class ${CLASS_A2}
+    }
+
+    namespace ${NAMESPACE_B} {
+        class ${CLASS_B1}
+        class ${CLASS_B2} {
+            ${METHOD_B2}
+        }
+        class ${CLASS_B3} {
+            ${METHOD_B3}
+        }
+    }
+
+    namespace ${NAMESPACE_C} {
+        class ${CLASS_C1} {
+            <<interface>>
+            ${METHOD_C1}
+        }
+        class ${CLASS_C2}
+        class ${CLASS_C3}
+        class ${CLASS_C4}
+    }
+
+    ${REL_1}
+    ${REL_2}
+    ${REL_3}
+    ${REL_4}
+    ${REL_5}
+    ${REL_6}
+    ${REL_7}
+    ${REL_8}

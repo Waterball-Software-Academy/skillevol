@@ -1,0 +1,49 @@
+<!-- architecture-sketch SKIN kit. Copy the <svg> opening + <defs> into each diagram, set width/height.
+     Palette (see references/skin.md):
+       canvas #fbfaf7 · ink #2b2b2b · muted #7a756c · stereotype #9b8bd0 · chip-bg #f0ede6
+       NOTE  design-constraint   fill #f9e7e5 stroke #c0392b text #922b21
+             impl-directive 💡   fill #fbeee2 stroke #d35400 text #a04000
+             behavioral-contract fill #eaf1f8 stroke #2471a3 text #1b4f72
+             scope-bound         fill #f1e8f6 stroke #7d3c98 text #5b2c6f
+             reference-exemplar  fill #e6f3ee stroke #117a65 text #0b5345
+       EDGE  call/dataflow = #2b2b2b solid · injection = #c0392b dashed · render = #7a756c thin
+       markers: ★ = high salience · 💡 = impl hint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980"
+     font-family="'JetBrains Mono','SF Mono','Menlo','Consolas','PingFang TC','Microsoft JhengHei',monospace">
+  <defs>
+    <!-- edge / dependency / association arrowhead (ink) -->
+    <marker id="ink" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 L3,5.5 Z" fill="#2b2b2b"/></marker>
+    <!-- injection arrowhead (red) -->
+    <marker id="red" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 L3,5.5 Z" fill="#c0392b"/></marker>
+    <!-- UML inheritance / realize: hollow triangle -->
+    <marker id="tri" markerWidth="18" markerHeight="16" refX="16" refY="8" orient="auto"><path d="M16,1 L16,15 L2,8 Z" fill="#fbfaf7" stroke="#2b2b2b" stroke-width="1.6"/></marker>
+    <!-- UML composition: filled diamond -->
+    <marker id="diaF" markerWidth="20" markerHeight="14" refX="1" refY="7" orient="auto"><path d="M1,7 L10,1.5 L19,7 L10,12.5 Z" fill="#2b2b2b"/></marker>
+    <!-- UML aggregation: hollow diamond -->
+    <marker id="diaO" markerWidth="20" markerHeight="14" refX="1" refY="7" orient="auto"><path d="M1,7 L10,1.5 L19,7 L10,12.5 Z" fill="#fbfaf7" stroke="#2b2b2b" stroke-width="1.6"/></marker>
+    <!-- «inverse» small arrowheads for both ends of a dashed link -->
+    <marker id="inv"  markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0.5 L9,4.5 L0,8.5" fill="none" stroke="#a04000" stroke-width="1.5"/></marker>
+    <marker id="invS" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto"><path d="M9,0.5 L0,4.5 L9,8.5" fill="none" stroke="#a04000" stroke-width="1.5"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1440" height="980" fill="#fbfaf7"/>
+
+  <!-- === body: lanes → nodes → edges → notes → legend === -->
+  <!-- Lane (dashed frame + column header):
+  <rect x="24" y="96" width="1040" height="600" rx="14" fill="none" stroke="#bdb8ad" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <text x="40" y="120" font-size="16" font-weight="700" fill="#8a857a">LANE LABEL</text> -->
+
+  <!-- Node box (rounded rect; «stereotype» top, icon left, impl chip bottom):
+  <rect x="48" y="252" width="200" height="172" rx="12" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="60" y="276" font-size="13" fill="#9b8bd0" font-style="italic">«3rd»</text>
+  <text x="60" y="300" font-size="19" font-weight="700" fill="#2b2b2b">⌨ Node Label</text>
+  <rect x="60" y="386" width="176" height="24" rx="6" fill="#f0ede6"/>
+  <text x="68" y="403" font-size="12" fill="#8a857a">▸ adapters/unit</text> -->
+
+  <!-- multiplicity:N stack (three offset card edges behind the box):
+  <rect x="588" y="262" .../> <rect x="582" y="257" .../> <rect x="576" y="252" ... stroke-width="2"/> -->
+
+  <!-- Note box (fill+stroke by type; dashed leader to anchor):
+  <rect x="300" y="140" width="232" height="46" rx="8" fill="#eaf1f8" stroke="#2471a3"/>
+  <text x="312" y="160" font-size="12" fill="#1b4f72">behavioral note line 1</text>
+  <path d="M416,186 L416,252" stroke="#2471a3" stroke-width="1.2" stroke-dasharray="3 3"/> -->
+</svg>

@@ -1,0 +1,5 @@
+# Ephemeral skillevol run workspace at repo root (eval fixtures keep their own .skillevol paths)
+.skillevol/
+
+# macOS
+.DS_Store

@@ -1,0 +1,40 @@
+classDiagram
+    direction LR
+
+    namespace cart {
+        class Cart {
+            +getUserId() String
+            +getItems() List~CartItem~
+        }
+        class CartItem
+    }
+
+    namespace order {
+        class Order
+        class OrderService {
+            +createFromCart(cart) Order
+        }
+        class CheckoutService {
+            +checkout(cart) Order
+        }
+    }
+
+    namespace payment {
+        class PaymentGateway {
+            <<interface>>
+            +charge(request) PaymentResult
+        }
+        class StripePaymentGateway
+        class PaymentRequest
+        class PaymentResult
+    }
+
+    Cart "1" *-- "0..*" CartItem : contains
+    OrderService ..> Cart : reads
+    OrderService ..> Order : creates
+    CheckoutService ..> Cart : accepts
+    CheckoutService ..> OrderService : creates_order
+    CheckoutService ..> PaymentGateway : charges
+    PaymentGateway <|.. StripePaymentGateway : implements
+    PaymentGateway ..> PaymentRequest : accepts
+    PaymentGateway ..> PaymentResult : returns

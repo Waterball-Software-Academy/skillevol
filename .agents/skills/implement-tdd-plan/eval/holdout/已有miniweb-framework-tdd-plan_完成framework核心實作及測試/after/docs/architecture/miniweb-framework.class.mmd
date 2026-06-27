@@ -1,0 +1,62 @@
+classDiagram
+    direction LR
+
+    namespace server {
+        class Bootstrap
+        class MiniWebServer {
+            +start() void
+        }
+        class JdkHttpHandlerAdapter {
+            +handle(exchange) void
+        }
+    }
+
+    namespace http {
+        class RequestContext
+        class ResponseWriter
+    }
+
+    namespace routing {
+        class Router {
+            +register(method, path, handler) void
+            +match(method, path) RouteMatch
+        }
+        class RouteRegistry
+        class RouteMatch
+    }
+
+    namespace middleware {
+        class Middleware {
+            <<interface>>
+            +intercept(context, chain) void
+        }
+        class MiddlewareChain {
+            +next(context) void
+        }
+    }
+
+    namespace dispatch {
+        class RequestDispatcher {
+            +dispatch(context) void
+        }
+    }
+
+    namespace handler {
+        class RequestHandler {
+            <<interface>>
+            +handle(context) void
+        }
+        class HandlerRegistry
+    }
+
+    Bootstrap ..> MiniWebServer : boots
+    MiniWebServer ..> JdkHttpHandlerAdapter : accepts
+    JdkHttpHandlerAdapter ..> RequestContext : builds
+    JdkHttpHandlerAdapter ..> ResponseWriter : writes
+    RequestDispatcher ..> Router : resolves
+    Router ..> RouteRegistry : reads
+    Router ..> RouteMatch : returns
+    RequestDispatcher ..> MiddlewareChain : invokes
+    MiddlewareChain ..> Middleware : iterates
+    RequestDispatcher ..> RequestHandler : dispatches
+    HandlerRegistry ..> RequestHandler : stores
