@@ -73,6 +73,7 @@
 ## Rule 4 — 在可跑骨架前，先單獨對齊 artifact output contract
 
 - 只要目標 skill 預期產出 file artifact，就必須在「可跑骨架」之前，先單獨確認 output channel、expected artifact path、allowed diff、forbidden diff，以及哪些資訊是 target-visible input、哪些只能留在 hidden oracle。這一點若沒先對齊，後面的 before/after、prompt、expect 很容易一起歪掉。
+- 若目標 skill 同時有多個 subcommand，且 chosen subcommand 會影響 expected artifact path、artifact family 或 unit identity，artifact output contract 必須站在 naming contract 已確認之後；不得在 subcommand 身分還沒釘住前，先問一個抽象的 generic artifact contract。
 
 ### Good
 
@@ -95,6 +96,7 @@
 ## Rule 5 — 多 subcommand 目標要先單獨對齊 unit naming contract
 
 - 若目標 skill 有多個可選 subcommand，且不同 subcommand 會導出不同操作路徑、artifact family 或驗證局面，必須在第一個 happy unit 設計前，先單獨確認 unit naming contract。
+- 若 chosen subcommand 會進一步影響 expected artifact path 或 output contract 的描述，這個 naming contract 也必須先於 artifact output contract 被確認；因為 artifact contract 裡的 path、allowed diff 與 sample unit identity 都要站在已釘住的 subcommand 身分上。
 - 命名形式不是抽象地重複 `<before情境設定概述>_<after測試結果概述>` 就好，而是要把 chosen subcommand 放在 before-segment 最前面，採 `<subcommand動作>-<情境設定概述>_<預期結果概述>`。
 - 這個 naming contract 若沒先對齊，後面即使 happy unit 的行為與 after/ 都看起來合理，unit dirname 仍可能失去辨識力，讓 benchmark report、run workspace 與失敗摘要無法一眼分出是在驗哪個 subcommand。
 

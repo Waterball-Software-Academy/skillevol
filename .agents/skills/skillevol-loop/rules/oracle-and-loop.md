@@ -32,6 +32,68 @@
 
 - 停止本輪 loop，要求先補 eval oracle；不要先改 skill。
 
+## Rule 1b — 執行 loop 時不得讀本 skill 的 self-eval fixture
+
+- `skillevol-loop` 在執行時，`eval oracle` 一律指「目標 skill 的 eval/」，不是 `skillevol-loop` 自己 repo 內的 self-test fixture。
+- 除非使用者明確要求修改 `skillevol-loop/eval/**`，否則本 skill 不得讀取自己的 `eval/`、unit `expect.md`、`after/`、golden report 或其他 self-eval material。
+- 若 `skillevol-loop` 自己正被外層 `/skillevol-run-eval` 評估，這些 self-eval fixture 仍屬 hidden oracle material，不是 runtime input；不得為了猜現在在測什麼而回頭讀它們。
+
+### Good
+
+情境: `skillevol-loop` 正在優化 `demo-plan-skill`，外層 runner 剛把 `demo-plan-skill` fixture 複製到 sandbox。
+
+```
+read: sandbox 內的 demo-plan-skill、demo-plan-skill/eval、使用者需求、sandbox 內既有 working-plan
+not read: repo/.agents/skills/skillevol-loop/eval/dev/.../expect.md
+```
+
+結果: loop 只靠 target skill 與使用者需求做判斷，不會偷看自己這題的答案。
+
+### Bad
+
+情境: 同上。
+
+```
+我先讀 skillevol-loop/eval/dev/.../expect.md 和 after/，這樣比較知道這題要我做什麼。
+```
+
+結果: 被測 skill 從 repo 讀到 self-eval golden，破壞 oracle isolation；即使行為面看起來正確，也不能算 pass。
+
+預期改法:
+
+- 把可讀輸入限制在 target skill、target eval、使用者需求與 sandbox 內 working-plan；不要讀本 skill 的 self-eval fixture。
+
+## Rule 1c — Phase 0 產物必須先於 RCA 與確認 gate 落盤
+
+- `skillevol-loop` 在完成 Phase 0 後，必須先寫出 `.skillevol/.gitignore` 與 `.skillevol/<target-skill>/loop/working-plan.md`，才能開始任何 RCA 說明或確認 gate。
+- 這兩個檔案不是收尾 artifact，而是後續 RCA、red gate 與 mutation loop 的 state carrier。若它們缺失，就算白話 RCA 本身正確，也不能算通過本輪 unit。
+
+### Good
+
+情境: loop 剛判定目標 skill、desired state 與目前 gate。
+
+```
+1. write .skillevol/.gitignore
+2. write .skillevol/<target>/loop/working-plan.md
+3. 再開始白話 RCA 與 ask confirm
+```
+
+結果: 後續 phase 有可追溯 state，且 pre-mutation gate 的 file diff 與訊息一致。
+
+### Bad
+
+情境: loop 直接先講 RCA，最後才想起要不要補 working-plan。
+
+```
+先說明缺口、先 ask confirm；.skillevol/** 完全沒寫
+```
+
+結果: RCA 看似合理，但沒有 state carrier，unit 的 MUST file artifacts 失敗。
+
+預期改法:
+
+- 把 `.skillevol/.gitignore` 與 working-plan 視為 Phase 0 的 blocking output，而不是可有可無的附帶產物。
+
 ## Rule 2 — 進 red gate 前先做白話 RCA
 
 - 既有 skill 要優化時，先檢查現有 eval 是否覆蓋使用者此次 desired state。若新需求、新限制、新風格或新邊界沒有出現在 eval 中，必須先做一段 eval-oracle RCA，再決定如何補 failing test。

@@ -10,6 +10,22 @@ description: 判讀單一 eval run 的觀測、expect 與 after，回傳可被 r
 若缺少這個獨立 judge，run-eval 容易把「執行 target」和「判定 target 是否符合 eval」混在一起，造成 pass/fail 規則不穩或報告無法追溯。
 本版採 LV1 最小型態，只寫 frontmatter、Purpose 與 SOP；只有當後續 eval 證明判準過重或輸出格式不穩時，才升級成 RuleFile、TemplateFile 或 Sub-SOP。
 
+
+## PRINCIPLE: STRICT SOP
+
+1. 依序不漏步：自底下列 SOP 逐一執行；每做一步，在訊息中「明示該步編號」。
+2. 限縮延長推理：僅當 sub-SOP 當步明文標示須 **`think / reasoning`** 時，才拉長內省與推演；否則以最直接可做之 `READ`／`WRITE`／`DELEGATE` 工具呼叫達成該步，省略與該步授權範圍無關的冗長鋪墊，以降低往返等待時間。
+
+## PRINCIPLE: 長流程待辦
+
+長流程會跨多輪對話；在 conversation compact（對話摘要壓縮）之後，執行 AI 仍要靠**同一套待辦清單**還原：目前卡在哪個 **phase**，該 phase 內細項又到哪一格步驟。底下為**兩層**約定：**外層只列 phase**，**進入該 phase** 再把該 sub-SOP 第一層編號步驟拆成子項。尚未開始的 phase 不必預先展開成檔案級細項，以免待辦與實際 `SOP.md` 脫節。
+
+- **必須工具化**：Tier 0／Tier 1 對應的勾選項，**要以執行環境提供的任務／待辦建立與更新能力實體化**（例如 **`TODOCREATE`**、**`TASKCREATE`** 等 tool；或宿主 IDE／Agent 內與之等效的待辦 API），在跑 sub-SOP **當下**就建好清單並隨步驟推進更新狀態。**禁止**只靠聊天裡口頭列點、不經工具建立的「心裡待辦」——壓縮後無法還原，也無法核對漏步。
+- **Tier 0（phase）**：對應本檔 `# SOP` 最外層每一個 H2 Phase。這一層的勾選語意是「該 phase 的細項已全部展開**且**已執行完 Phase 其中所有子步驟。」。
+- **Tier 1（phase 內細項）**：僅在目前執行中的 phase 建立；對應該 phase 裡**第一層編號步驟**拆解出的動作（`THINK` / `READ`／`WRITE`／`DELEGATE` 等）。編號建議：`(phase序)`、`(phase序-子序)`（例：`1`、`1-1`）；**進入該 phase 時**以 **`TODOCREATE`／`TASKCREATE`（或等效）** 補齊子項。
+
+**(1)** 的子項全部完成後，以 **`TODOCREATE`／`TASKCREATE`（或等效）** 將 Tier 0 之 **(1)** 標為完成，再對 **(2)** 重複「展開 → 跑完」，依序往後。**未完成當前 phase** 前，**不要**為後續 phase 預開檔案層級的細項。
+
 # SOP
 
 1. read caller 提供的 judge input：target skill 名稱、unit 路徑、觀測紀錄、before/、after/、unit expect.md，以及繼承的 shared/expect.md。

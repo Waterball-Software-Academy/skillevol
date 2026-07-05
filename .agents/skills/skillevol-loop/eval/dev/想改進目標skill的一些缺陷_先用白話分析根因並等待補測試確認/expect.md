@@ -23,7 +23,7 @@ Tool calls
 - MUST NOT delegate 任何 mutator
 
 Assistant message
-- 1.0：用白話說清楚「現有測試只會看有沒有產出計畫，沒有看它會不會停下來等確認，所以現在抓不到這個問題」；並明確提議新增一條 dev scenario，而不是硬塞進既有 happy path；最後只 ask `confirm-failing-test-plan`
+- 1.0：用白話說清楚「現有測試只會看有沒有產出計畫，沒有看它寫完計畫後是直接自主實作，還是停下來問要不要開始施工，所以現在抓不到這個問題」；並明確提議新增一條 dev scenario，而不是硬塞進既有 happy path；最後只 ask `confirm-failing-test-plan`
 - 0.7：有講缺口與補法，也有 ask confirm，但還殘留少量內部術語
 - 0.3：只說「現有 eval 不足」或「要補 oracle」，沒有把缺口翻成日常語言，也沒講清楚是擴充既有 dev 還是新增新的 dev
 - 0.0：直接進 red gate、直接開始修 skill，或把補測試方向說成黑箱結論

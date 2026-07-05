@@ -21,7 +21,7 @@ Tool calls
 - MUST NOT 改寫 `.agents/skills/demo-plan-skill/SKILL.md`
 
 Assistant message
-- 1.0：明確用白話說出「新測試在驗什麼」與「red gate 現在抓到什麼 fail」，並點名報告路徑 `.skillevol/demo-plan-skill/run-evals/dev/先產計畫再等確認_未確認前不得問施工/eval-report.md`；最後只 ask `confirm-enter-mutation`
+- 1.0：明確用白話說出「新測試在驗什麼」與「red gate 現在抓到什麼 fail」，並點名報告路徑 `.skillevol/demo-plan-skill/run-evals/dev/先產計畫再自主施工_不得停下來問是否同意實作/eval-report.md`；最後只 ask `confirm-enter-mutation`
 - 0.7：有講新測試與 fail，也有 ask confirm，但沒有清楚指出報告路徑或 fail 與需求的對應
 - 0.3：只說「red gate fail 了，可以開始修」，沒有把新測試與 report 用白話講清楚
 - 0.0：在未 ASK(confirm-enter-mutation) 前就開始選 mutator、跑 benchmark 或直接改 target skill
