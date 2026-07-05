@@ -133,6 +133,37 @@ Skillevol 會在 repo 根目錄底下開一個 `.skillevol/` 工作區。
 1. 哪些是你真正要 version control 的東西。
 2. 哪些只是這一次 run 的中間產物。
 
+# 我們的 Eval 優勢在哪？
+
+我覺得這套 eval 比較強的地方，是它不是只在看 skill 用完之後的 snapshot 對不對。
+
+它其實是在驗證「這個 skill 有沒有用對的方法完成這件事」。
+
+1. 不是只看 `after/`
+    1. 一般測法很容易只看最後產物像不像 golden snapshot。
+    2. 但我們這套 eval 會同時看 `Tool calls`、`Assistant message`、`after/`，如果是多輪互動還會看 `event trace`。
+    3. 所以不是只有結果對，連過程也要對。
+2. 可以驗證互動型 skill
+    1. 有些 skill 本來就不是一口氣做完，中途會有必要 clarify。
+    2. 這時候 eval 不只是允許它問，而是可以明確驗證：它有沒有在該問的時候問、問的題目對不對、回答之後有沒有繼續往下走。
+    3. `user.md` 在這裡很重要，因為它讓 eval 可以模擬後續使用者回覆，而不是只測單輪 happy path。
+3. 可以驗證時序與 gate
+    1. 很多 skill 的 correctness，不只在於最後有沒有產出檔案，而在於順序有沒有守住。
+    2. 例如：該先 clarify 才能寫、該先 confirm 架構才能施工、答完上一題之前不能偷跑下一步。
+    3. 這些東西單靠 snapshot 很難測，但用 turn-by-turn 的 expect 與 cross-turn 規則就能測。
+4. 對 multi-turn 行為比較有判別力
+    1. 我們可以驗證每個 `ASK` 後面是不是有對應的 `ANSWER`。
+    2. 也可以驗證同一題是不是被重複問、整個 run 最後會不會正常終止。
+    3. 換句話說，eval 不只看「有沒有問」，還看「這個互動有沒有走完」。
+5. 不會把 oracle 簡化成死板的 byte-exact 比對
+    1. `after/` 的重點比較偏向語意等價，不一定是每個字都一模一樣。
+    2. 這讓 eval 比較不會因為表面差異就誤殺合理解，也比較能容納真正有設計空間的 skill。
+6. 能把失敗定位得更清楚
+    1. 因為它不是只有一張最終快照，所以 fail 的時候比較容易知道是卡在 tool call、互動 gate、時序，還是檔案終態。
+    2. 這對後面要用 `/skillevol-loop` 去補 red gate、做 RCA、再做 mutation 很重要。
+
+簡單講，我們這套 eval 測的不只是「有沒有做出來」，而是「有沒有以正確的互動方式、正確的步驟順序、正確的邊界控制把它做出來」。
+
 # Skill Family Table
 
 由上到下就是由高層到低層。`form` 類型放最下面，`derive` 放在 `form` 之上。
