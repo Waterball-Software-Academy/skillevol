@@ -1,0 +1,54 @@
+[ACTIVITY] 新讀者借閱權限申請與審核
+[ACTOR] 承辦館員
+[ACTOR] 櫃檯主任
+[ACTOR] 分館館長
+[ACTOR] 區群總館長
+[ACTOR] 副總館長
+[ACTOR] 總館長
+
+[INITIAL]
+[STEP:1] @承辦館員 為新讀者送出借閱權限申請並填寫評分條件 {specs/packages/01-圖書借閱權限管理/features/01-送出新讀者借閱權限申請.feature}
+[DECISION:1a] 資格積分是否達 25 分
+  [BRANCH:1a:未達25分直接駁回]
+    [FINAL]
+  [BRANCH:1a:達25分進入審核]
+[MERGE:1a]
+[STEP:2] @櫃檯主任 查詢審核工作台申請清單 {specs/packages/01-圖書借閱權限管理/features/04-查詢審核工作台申請清單.feature}
+[STEP:3] @櫃檯主任 查詢審核明細 {specs/packages/01-圖書借閱權限管理/features/05-查詢審核明細.feature}
+[STEP:4] @櫃檯主任 送出審核決策 {specs/packages/01-圖書借閱權限管理/features/03-審核核准或駁回.feature}
+[DECISION:4a] 櫃檯主任審核結果
+  [BRANCH:4a:駁回]
+    [STEP:4a.1] @承辦館員 查詢讀者借閱權限詳情看到駁回狀態與退回原因 {specs/packages/01-圖書借閱權限管理/features/07-查詢讀者借閱權限詳情.feature}
+    [FINAL]
+  [BRANCH:4a:核准且借閱額度未滿20點]
+  [BRANCH:4a:核准且借閱額度達20點]
+    [STEP:5] @分館館長 查詢審核明細 {specs/packages/01-圖書借閱權限管理/features/05-查詢審核明細.feature}
+    [STEP:6] @分館館長 送出審核決策 {specs/packages/01-圖書借閱權限管理/features/03-審核核准或駁回.feature}
+    [DECISION:6a] 分館館長審核結果
+      [BRANCH:6a:駁回 -> 4a.1]
+      [BRANCH:6a:核准且借閱額度未滿50點]
+      [BRANCH:6a:核准且借閱額度達50點]
+        [STEP:7] @區群總館長 查詢審核明細 {specs/packages/01-圖書借閱權限管理/features/05-查詢審核明細.feature}
+        [STEP:8] @區群總館長 送出審核決策 {specs/packages/01-圖書借閱權限管理/features/03-審核核准或駁回.feature}
+        [DECISION:8a] 區群總館長審核結果
+          [BRANCH:8a:駁回 -> 4a.1]
+          [BRANCH:8a:核准且借閱額度未滿100點]
+          [BRANCH:8a:核准且借閱額度達100點]
+            [STEP:9] @副總館長 查詢審核明細 {specs/packages/01-圖書借閱權限管理/features/05-查詢審核明細.feature}
+            [STEP:10] @副總館長 送出審核決策 {specs/packages/01-圖書借閱權限管理/features/03-審核核准或駁回.feature}
+            [DECISION:10a] 副總館長審核結果
+              [BRANCH:10a:駁回 -> 4a.1]
+              [BRANCH:10a:核准且借閱額度未滿200點]
+              [BRANCH:10a:核准且借閱額度達200點]
+                [STEP:11] @總館長 查詢審核明細 {specs/packages/01-圖書借閱權限管理/features/05-查詢審核明細.feature}
+                [STEP:12] @總館長 送出審核決策 {specs/packages/01-圖書借閱權限管理/features/03-審核核准或駁回.feature}
+                [DECISION:12a] 總館長審核結果
+                  [BRANCH:12a:駁回 -> 4a.1]
+                  [BRANCH:12a:核准]
+                [MERGE:12a]
+            [MERGE:10a]
+        [MERGE:8a]
+    [MERGE:6a]
+[MERGE:4a]
+[STEP:13] @承辦館員 查詢讀者借閱權限詳情確認權限生效 {specs/packages/01-圖書借閱權限管理/features/07-查詢讀者借閱權限詳情.feature}
+[FINAL]

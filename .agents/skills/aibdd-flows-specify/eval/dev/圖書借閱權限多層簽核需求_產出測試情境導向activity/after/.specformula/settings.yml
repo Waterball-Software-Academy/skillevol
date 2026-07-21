@@ -1,0 +1,9 @@
+specformula:
+  version: '1.0'
+project:
+  name: example
+spectrace:
+  enabled: true
+directoryMarkings:
+  spec-root:
+    - specs

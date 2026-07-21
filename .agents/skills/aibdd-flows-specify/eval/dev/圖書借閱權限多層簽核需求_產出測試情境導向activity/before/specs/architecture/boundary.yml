@@ -1,0 +1,13 @@
+version: 2
+id: "backend"
+level: 1
+role: backend
+type: web-service
+description: "backend Java Spring Boot backend service"
+profile_overrides:
+  state_specifier:
+    skill: /aibdd-form-ddl-spec
+    format: postgresql
+    semantics: persistent
+    output_dir_key: DATA_DIR
+    default_filename: domain.pg.sql
