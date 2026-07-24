@@ -111,3 +111,103 @@
 預期改法:
 
 - 能用標準庫就回標準庫；若真的要第三方，顯性寫進 PEP 723 metadata。
+
+## Rule 6 — 失敗時輸出可理解錯誤並以非零 exit code 結束
+
+- ScriptFile 可能失敗時，應把可理解的錯誤訊息寫到 stderr，並以非零 exit code 結束，讓呼叫端能辨識成敗。
+- 成功路徑回傳 0；輸入缺失、格式錯誤等可預期失敗回傳明確的非零碼，不要吞掉錯誤只印 "done"。
+
+### Good
+
+情境: 找不到輸入檔時，印錯誤到 stderr 並回傳非零碼。
+
+```python
+if not path.exists():
+    print(f"Input not found: {path}", file=sys.stderr)
+    return 2
+```
+
+結果: 呼叫端可用 exit code 判斷失敗，錯誤訊息也可讀。
+
+### Bad
+
+情境: 直接 `open(source).read()` 後只印 `print("done")`，失敗時沒有可依賴的訊號。
+
+結果: 呼叫端無法從 exit code 或訊息判斷成敗。
+
+預期改法:
+
+- 對可預期失敗做檢查，錯誤寫 stderr 並回傳非零 exit code；成功才回傳 0。
+
+## Rule 7 — 預設執行方式寫成 `uv run <script.py>`
+
+- SOP 步驟提到執行 `scripts/` 下的 Python script 時，預設執行方式必須寫成 `uv run scripts/<name>.py`。
+- 這個預設路徑對有無第三方套件都適用，避免呼叫端在 `python`、虛擬環境與手動安裝之間自行猜測。
+- 不要把 `python <script.py>`、`./script.py` 或平台特定 launcher 當成主要執行方式。
+
+### Good
+
+```md
+1. DELEGATE 執行 `uv run scripts/normalize-observation.py --input tmp/obs.md --output tmp/obs.json`，再用輸出回填後續步驟。
+```
+
+結果: 步驟直接指定統一且跨平台的執行命令。
+
+### Bad
+
+```md
+1. DELEGATE 執行 `python scripts/normalize-observation.py`。
+```
+
+預期改法:
+
+- 改成 `uv run scripts/normalize-observation.py ...`，並以顯性參數傳入輸入輸出。
+
+## Rule 8 — 缺少 `uv` 時提示標準 fallback，不猜測式安裝
+
+- 若執行環境缺少 `uv`，應優先提示安裝 `uv`，再重跑原本的 `uv run scripts/<name>.py`。
+- 若當下不能安裝 `uv`，且 `pip` 支援 `--requirements-from-script`，可先 `python -m pip install --requirements-from-script scripts/<name>.py`，再 `python scripts/<name>.py`。
+- 不要根據 `ModuleNotFoundError` 臨時猜套件名逐一安裝，也不要要求呼叫端自行讀 import 反推依賴。
+
+### Good
+
+```md
+若 `uv` 不可用，先提示安裝 `uv` 後執行 `uv run scripts/fetch-report.py`。
+若當下只能用 `pip 26+`，先執行 `python -m pip install --requirements-from-script scripts/fetch-report.py`，再執行 `python scripts/fetch-report.py`。
+```
+
+結果: 依賴來源固定在 PEP 723 metadata，備援路徑一致可預測。
+
+### Bad
+
+```md
+若腳本失敗，就看缺哪個模組再自己 `pip install`。
+```
+
+預期改法:
+
+- 提供固定 fallback: 先裝 `uv`，或用 `pip --requirements-from-script`，不要逐一猜裝。
+
+## Rule 9 — 不依賴特定作業系統的 shell 行為
+
+- ScriptFile 與 SOP 步驟不可把 `chmod +x`、bash-only 語法、`.sh` 包裝器、POSIX 路徑假設等 OS 專屬 shell 行為當成必要前提。
+- 傳遞路徑、參數或輸出位置時，用 Python 可攜的方式與顯性參數，不要倚賴某個 shell 展開規則。
+- shebang 可作為額外便利，但不可成為主要或唯一的執行方式。
+
+### Good
+
+```md
+1. DELEGATE 執行 `uv run scripts/export-notes.py --source data/input.md --output data/output.json`。
+```
+
+結果: 主要路徑是跨平台的 `uv run`，不預設 POSIX 專屬設定。
+
+### Bad
+
+```md
+1. DELEGATE 先 `chmod +x scripts/export-notes.py`，再用 `./scripts/export-notes.py` 跑。
+```
+
+預期改法:
+
+- 主要執行改回 `uv run scripts/export-notes.py ...`；不要求 `chmod +x` 或 POSIX 專屬前提。

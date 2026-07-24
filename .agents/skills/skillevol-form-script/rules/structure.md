@@ -24,6 +24,7 @@
       S4  輸入與輸出走顯性參數，不偷吃未宣告的隱性狀態
       S5  必有 `main()` 與 `__main__` guard；可直接執行
       S6  內容是程式碼，不混入 markdown 標題、流程說明或 prompt 文案
+      S7  失敗以非零 exit code 結束，錯誤訊息寫到 stderr；成功回傳 0
     ```
 
 ### Good
