@@ -1,20 +1,17 @@
 ---
-name: skillevol-derive-rules
-description: 從目標 skill 的指定 SOP 步驟導出 RuleFile mutation：在正確位置建立或開啟 RuleFile，把該步的 rule-type 規定移入，並在步驟句末補上對 RuleFile 的 reference。Use when 已指定目標 skill 與步驟，且要把 SOP 內的無序原子規定抽成 RuleFile。SKIP when 內容其實是 TemplateFile、Sub-SOP、只改 RuleFile form、未指定目標步驟、或要從零發明規則。
+name: skill-derive-rule
+description: 給訂一個已經撰寫好 SOP 的 SKILL，使用者想要針對某個步驟，去展開該步驟需要遵守的規則，那此時就必須呼叫此 Skill。
 ---
-
-# Purpose
-
-SOP 某步累積太多無序規定時，真正要做對的是 mutation：找到正確步驟、把規定移到正確的 RuleFile、再把 reference 掛回該步。
-本 skill 在使用者已指定目標 skill 與步驟、且內容確實屬於 rule-type 規定時啟用，負責完成這個 derive-and-attach mutation。
-RuleFile 的 form 交給 `skillevol-form-rule-file`；本 skill 只負責決定開哪個檔、移哪些內容、以及怎麼回寫 SOP。
 
 # SOP
 
-1. read 目標 SKILL.md（含 `# SOP` 與使用者指定的步驟編號或指令句），並確認本次只動該步與其對應的 RuleFile。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-2. think 確認必要輸入齊全（目標 skill、步驟、規則內容），且內容確屬 rule-type：無序、可逐條驗收的原子規定；若其實是 TemplateFile 或 Sub-SOP，則停止並改走正確 skill。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-3. think 決定 RuleFile 位置：若該步已 reference 既有 RuleFile，直接開該檔；否則在目標 skill 根下的 `rules/` 選定一個語意清楚的 kebab-case 檔名，並在正確位置建立或開啟它。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-4. delegate RuleFile 的 form 給 `skillevol-form-rule-file`；本 skill 不重述 RuleFile 應長什麼樣，只負責把本次規定放進去。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-5. write 規則內容至目標 RuleFile，只移入本次指定步驟所需的 rule-type 規定，不臆測未被提供或未被確認的新規則。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-6. write 僅更新目標 SKILL.md 的指定 SOP 步驟：移除已抽離的內嵌 bullet，保留主指令，並在句末補上 `請嚴格遵守 \`rules/<檔名>.md\` 來執行此步驟。`。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
-7. think 驗證 RuleFile 路徑存在、SOP reference 與實際檔名一致、且該步不再殘留已抽離的重複規定。請嚴格遵守 `rules/mutation.md` 來執行此步驟。
+## Phase 1 -- 收斂規則展開範圍
+
+1. READ 讀取目標 SOP skill 內容，定位使用者指定的 phase 與 step，確認要展開的是哪個步驟的規則。
+2. THINK 若需要判斷哪些要求應抽成可按需載入的 RuleFile、哪些內容仍應留在原 step，先讀取 `rules/規則展開邊界.md`，再根據該 step 的目的、輸入輸出與常見失誤收斂規則邊界，避免把規則展開誤寫成流程改寫。
+
+## Phase 2 -- 展開規則並掛回 SOP
+
+1. DELEGATE 若已收斂出規則範圍，呼叫 `/skill-form-rule` 撰寫或修改目標 skill `rules/` 下對應的 RuleFile，交付該步驟需要額外把關的規則內容。
+2. WRITE 回寫目標 SOP skill 的指定 step，補上何時按需讀取該 RuleFile 的說明，讓主流程維持最小可用、規則在需要時才載入。
+3. READ 若需要檢查回寫後的指定 step 是否已把新 RuleFile 的讀取時機與路徑嵌回原句，先讀取 `rules/回寫後仍可執行.md`，再回頭檢查新 RuleFile 與回寫後的 SOP 是否一致：指定 step 仍描述當下動作、RuleFile 只在實際讀取時被點名，且流程已形成「先有 SOP、再逐步展開規則」的結構；若不符合，立即修正。
